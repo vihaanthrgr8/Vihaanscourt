@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Recaps | Vihaan's Court</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #121212;
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      nav {
+        background-color: #1a1a1a;
+        border-bottom: 2px solid #ff6b00;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        color: #ff6b00;
+        font-size: 22px;
+        font-weight: bold;
+        letter-spacing: 2px;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+      }
+
+      .nav-links a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 15px;
+        letter-spacing: 1px;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover { color: #ff6b00; }
+      .nav-links a.active {
+        color: #ff6b00;
+        border-bottom: 2px solid #ff6b00;
+        padding-bottom: 2px;
+      }
+
+      .court-svg {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 0;
+        opacity: 0.07;
+        pointer-events: none;
+      }
+
+      .main {
+        flex: 1;
+        padding: 40px 20px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .page-title {
+        text-align: center;
+        font-size: 32px;
+        letter-spacing: 3px;
+        margin-bottom: 10px;
+        color: #fff;
+      }
+
+      .page-date {
+        text-align: center;
+        color: #888;
+        font-size: 14px;
+        margin-bottom: 40px;
+        letter-spacing: 1px;
+      }
+
+      /* Ticker */
+      .ticker-wrapper {
+        background-color: #ff6b00;
+        overflow: hidden;
+        padding: 8px 0;
+        white-space: nowrap;
+        margin-bottom: 0;
+      }
+
+      .ticker-content {
+        display: inline-block;
+        animation: ticker 25s linear infinite;
+        font-size: 14px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        color: #121212;
+      }
+
+      .ticker-content span {
+        margin-right: 60px;
+      }
+
+      @keyframes ticker {
+        0% { transform: translateX(100vw); }
+        100% { transform: translateX(-100%); }
+      }
+
+      .games-container {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .game-card {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-left: 4px solid #ff6b00;
+        border-radius: 8px;
+        padding: 20px 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.2s;
+      }
+
+      .game-card:hover { background-color: #252525; }
+
+      .team-block {
+        text-align: center;
+        width: 180px;
+      }
+
+      .team-name {
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        color: #fff;
+      }
+
+      .team-name.winner { color: #ff6b00; }
+
+      .score-block { text-align: center; }
+
+      .score {
+        font-size: 36px;
+        font-weight: bold;
+        color: #ff6b00;
+        letter-spacing: 4px;
+      }
+
+      .game-status {
+        font-size: 12px;
+        color: #888;
+        margin-top: 6px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .game-status.live {
+        color: #ff6b00;
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+      }
+
+      .loading {
+        text-align: center;
+        color: #888;
+        font-size: 16px;
+        padding: 60px;
+        letter-spacing: 1px;
+      }
+
+      .no-games {
+        text-align: center;
+        color: #888;
+        font-size: 16px;
+        padding: 60px;
+        letter-spacing: 1px;
+        border: 1px solid #333;
+        border-radius: 8px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .error {
+        text-align: center;
+        color: #ff6b00;
+        font-size: 14px;
+        padding: 40px;
+      }
+
+      footer {
+        background-color: #1a1a1a;
+        border-top: 2px solid #ff6b00;
+        text-align: center;
+        padding: 20px;
+        color: #888;
+        font-size: 14px;
+        letter-spacing: 1px;
+        position: relative;
+        z-index: 1;
+      }
+
+      footer span { color: #ff6b00; }
+    </style>
+  </head>
+  <body>
+
+    <svg class="court-svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="20" width="760" height="460" fill="none" stroke="#ff6b00" stroke-width="3"/>
+      <line x1="400" y1="20" x2="400" y2="480" stroke="#ff6b00" stroke-width="2"/>
+      <circle cx="400" cy="250" r="60" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <circle cx="400" cy="250" r="5" fill="#ff6b00"/>
+      <rect x="20" y="175" width="150" height="150" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <circle cx="170" cy="250" r="60" fill="none" stroke="#ff6b00" stroke-width="2" stroke-dasharray="8,6"/>
+      <path d="M 20 130 Q 250 250 20 370" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <rect x="630" y="175" width="150" height="150" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <circle cx="630" cy="250" r="60" fill="none" stroke="#ff6b00" stroke-width="2" stroke-dasharray="8,6"/>
+      <path d="M 780 130 Q 550 250 780 370" fill="none" stroke="#ff6b00" stroke-width="2"/>
+    </svg>
+
+    <nav>
+      <div class="logo">🏀 VIHAAN'S COURT</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="recaps.html" class="active">Recaps</a></li>
+        <li><a href="teams.html">Teams</a></li>
+        <li><a href="players.html">Players</a></li>
+      </ul>
+    </nav>
+
+    <!-- Ticker -->
+    <div class="ticker-wrapper">
+      <div class="ticker-content" id="ticker">
+        <span>🏀 Loading today's scores...</span>
+      </div>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">GAME RECAPS</h1>
+      <p class="page-date" id="today-date">Loading...</p>
+      <div class="games-container" id="games-container">
+        <div class="loading">🏀 Fetching today's games...</div>
+      </div>
+    </div>
+
+    <footer>
+      <span>Your Daily NBA Fix</span> © 2026 Vihaan's Court
+    </footer>
+
+    <script>
+      // Show today's date
+      const today = new Date();
+      const dateStr = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('today-date').textContent = dateStr;
+
+      // Format date for API: YYYY-MM-DD
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      const apiDate = `${year}-${month}-${day}`;
+
+      // Fetch NBA scores from free API
+      async function fetchGames() {
+        try {
+          const response = await fetch(`https://api-nba-v1.p.rapidapi.com/games?date=${apiDate}`, {
+            headers: {
+              'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
+              'x-rapidapi-key': 'SIGN_UP_FOR_KEY'
+            }
+          });
+
+          // If API key not set, use balldontlie free API instead
+          throw new Error('Use free API');
+        } catch(e) {
+          // Use balldontlie free API - no key needed!
+          try {
+            const response = await fetch(`https://api.balldontlie.io/v1/games?dates[]=${apiDate}&per_page=15`, {
+              headers: { 'Authorization': 'free_api' }
+            });
+            const data = await response.json();
+            displayGames(data.data || []);
+          } catch(err) {
+            // Fallback to scores API
+            fetchFromScoresAPI();
+          }
+        }
+      }
+
+      async function fetchFromScoresAPI() {
+        try {
+          const response = await fetch(`https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json`);
+          const data = await response.json();
+          const games = data.scoreboard.games;
+          displayNBAGames(games);
+        } catch(err) {
+          document.getElementById('games-container').innerHTML = `
+            <div class="no-games">
+              🏀 No games today or scores not available yet.<br><br>
+              <span style="font-size:13px; color:#666;">Check back later or during the NBA season!</span>
+            </div>`;
+          document.getElementById('ticker').innerHTML = '<span>🏀 No games scheduled today</span>';
+        }
+      }
+
+      function displayNBAGames(games) {
+        const container = document.getElementById('games-container');
+        const tickerEl = document.getElementById('ticker');
+
+        if (!games || games.length === 0) {
+          container.innerHTML = `<div class="no-games">🏀 No games scheduled today.<br><br><span style="font-size:13px;color:#666;">Check back on a game day!</span></div>`;
+          tickerEl.innerHTML = '<span>🏀 No games today</span>';
+          return;
+        }
+
+        let tickerText = '';
+        let html = '';
+
+        games.forEach(game => {
+          const homeTeam = game.homeTeam;
+          const awayTeam = game.awayTeam;
+          const homeScore = homeTeam.score || 0;
+          const awayScore = awayTeam.score || 0;
+          const status = game.gameStatusText;
+          const isLive = game.gameStatus === 2;
+          const isFinal = game.gameStatus === 3;
+
+          const homeWins = isFinal && homeScore > awayScore;
+          const awayWins = isFinal && awayScore > homeScore;
+
+          tickerText += `<span>🏀 ${awayTeam.teamTricode} ${awayScore} - ${homeScore} ${homeTeam.teamTricode} &nbsp;|&nbsp; ${status}</span>`;
+
+          html += `
+            <div class="game-card">
+              <div class="team-block">
+                <div class="team-name ${awayWins ? 'winner' : ''}">${awayTeam.teamCity} ${awayTeam.teamName}</div>
+              </div>
+              <div class="score-block">
+                <div class="score">${awayScore} - ${homeScore}</div>
+                <div class="game-status ${isLive ? 'live' : ''}">${isLive ? '🔴 LIVE — ' : ''}${status}</div>
+              </div>
+              <div class="team-block">
+                <div class="team-name ${homeWins ? 'winner' : ''}">${homeTeam.teamCity} ${homeTeam.teamName}</div>
+              </div>
+            </div>`;
+        });
+
+        container.innerHTML = html;
+        tickerEl.innerHTML = tickerText;
+      }
+
+      function displayGames(games) {
+        if (!games || games.length === 0) {
+          fetchFromScoresAPI();
+          return;
+        }
+        // format balldontlie data
+        const container = document.getElementById('games-container');
+        let html = '';
+        let tickerText = '';
+
+        games.forEach(game => {
+          const homeScore = game.home_team_score || 0;
+          const visitorScore = game.visitor_team_score || 0;
+          const status = game.status;
+          const isLive = status && status.includes('Qtr');
+          const isFinal = status === 'Final';
+          const homeWins = isFinal && homeScore > visitorScore;
+          const awayWins = isFinal && visitorScore > homeScore;
+
+          tickerText += `<span>🏀 ${game.visitor_team.abbreviation} ${visitorScore} - ${homeScore} ${game.home_team.abbreviation} &nbsp;|&nbsp; ${status}</span>`;
+
+          html += `
+            <div class="game-card">
+              <div class="team-block">
+                <div class="team-name ${awayWins ? 'winner' : ''}">${game.visitor_team.full_name}</div>
+              </div>
+              <div class="score-block">
+                <div class="score">${visitorScore} - ${homeScore}</div>
+                <div class="game-status ${isLive ? 'live' : ''}">${isLive ? '🔴 LIVE — ' : ''}${status}</div>
+              </div>
+              <div class="team-block">
+                <div class="team-name ${homeWins ? 'winner' : ''}">${game.home_team.full_name}</div>
+              </div>
+            </div>`;
+        });
+
+        container.innerHTML = html;
+        document.getElementById('ticker').innerHTML = tickerText;
+      }
+
+      // Fetch games on load
+      fetchFromScoresAPI();
+
+      // Auto refresh every 60 seconds for live scores
+      setInterval(fetchFromScoresAPI, 60000);
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Teams | Vihaan's Court</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #121212;
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      nav {
+        background-color: #1a1a1a;
+        border-bottom: 2px solid #ff6b00;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        color: #ff6b00;
+        font-size: 22px;
+        font-weight: bold;
+        letter-spacing: 2px;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+      }
+
+      .nav-links a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 15px;
+        letter-spacing: 1px;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover { color: #ff6b00; }
+      .nav-links a.active {
+        color: #ff6b00;
+        border-bottom: 2px solid #ff6b00;
+        padding-bottom: 2px;
+      }
+
+      .court-svg {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 0;
+        opacity: 0.07;
+        pointer-events: none;
+      }
+
+      .main {
+        flex: 1;
+        padding: 40px 20px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .page-title {
+        text-align: center;
+        font-size: 32px;
+        letter-spacing: 3px;
+        margin-bottom: 40px;
+        color: #fff;
+      }
+
+      .conferences {
+        display: flex;
+        gap: 30px;
+        max-width: 1100px;
+        margin: 0 auto;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .conference {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .conference-title {
+        font-size: 18px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        color: #ff6b00;
+        border-bottom: 2px solid #ff6b00;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .standings-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .standings-table th {
+        text-align: left;
+        color: #888;
+        font-size: 12px;
+        letter-spacing: 1px;
+        padding: 8px 10px;
+        border-bottom: 1px solid #333;
+      }
+
+      .standings-table td {
+        padding: 10px;
+        font-size: 14px;
+        border-bottom: 1px solid #222;
+        color: #ccc;
+      }
+
+      .standings-table tr:hover td {
+        background-color: #1e1e1e;
+        color: #fff;
+      }
+
+      .rank {
+        color: #888;
+        font-size: 13px;
+        width: 25px;
+      }
+
+      .team-name {
+        font-weight: bold;
+        color: #fff;
+      }
+
+      .playoff-spot {
+        background-color: rgba(255, 107, 0, 0.08);
+      }
+
+      .playoff-spot .team-name {
+        color: #ff6b00;
+      }
+
+      .win-pct {
+        color: #888;
+        font-size: 13px;
+      }
+
+      .legend {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 13px;
+        color: #888;
+      }
+
+      .legend span {
+        color: #ff6b00;
+      }
+
+      footer {
+        background-color: #1a1a1a;
+        border-top: 2px solid #ff6b00;
+        text-align: center;
+        padding: 20px;
+        color: #888;
+        font-size: 14px;
+        letter-spacing: 1px;
+        position: relative;
+        z-index: 1;
+      }
+
+      footer span { color: #ff6b00; }
+    </style>
+  </head>
+  <body>
+
+    <svg class="court-svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="20" width="760" height="460" fill="none" stroke="#ff6b00" stroke-width="3"/>
+      <line x1="400" y1="20" x2="400" y2="480" stroke="#ff6b00" stroke-width="2"/>
+      <circle cx="400" cy="250" r="60" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <circle cx="400" cy="250" r="5" fill="#ff6b00"/>
+      <rect x="20" y="175" width="150" height="150" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <circle cx="170" cy="250" r="60" fill="none" stroke="#ff6b00" stroke-width="2" stroke-dasharray="8,6"/>
+      <path d="M 20 130 Q 250 250 20 370" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <rect x="630" y="175" width="150" height="150" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <circle cx="630" cy="250" r="60" fill="none" stroke="#ff6b00" stroke-width="2" stroke-dasharray="8,6"/>
+      <path d="M 780 130 Q 550 250 780 370" fill="none" stroke="#ff6b00" stroke-width="2"/>
+    </svg>
+
+    <nav>
+      <div class="logo">🏀 VIHAAN'S COURT</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="recaps.html">Recaps</a></li>
+        <li><a href="teams.html" class="active">Teams</a></li>
+        <li><a href="#">Players</a></li>
+      </ul>
+    </nav>
+
+    <div class="main">
+      <h1 class="page-title">NBA STANDINGS</h1>
+
+      <div class="conferences">
+
+        <!-- EASTERN CONFERENCE -->
+        <div class="conference">
+          <div class="conference-title">EASTERN CONFERENCE</div>
+          <table class="standings-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>TEAM</th>
+                <th>W</th>
+                <th>L</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="playoff-spot"><td class="rank">1</td><td class="team-name">Detroit Pistons</td><td>60</td><td>22</td></tr>
+              <tr class="playoff-spot"><td class="rank">2</td><td class="team-name">Boston Celtics</td><td>56</td><td>26</td></tr>
+              <tr class="playoff-spot"><td class="rank">3</td><td class="team-name">New York Knicks</td><td>53</td><td>29</td></tr>
+              <tr class="playoff-spot"><td class="rank">4</td><td class="team-name">Cleveland Cavaliers</td><td>52</td><td>30</td></tr>
+              <tr class="playoff-spot"><td class="rank">5</td><td class="team-name">Atlanta Hawks</td><td>46</td><td>36</td></tr>
+              <tr class="playoff-spot"><td class="rank">6</td><td class="team-name">Toronto Raptors</td><td>46</td><td>36</td></tr>
+              <tr class="playoff-spot"><td class="rank">7</td><td class="team-name">Orlando Magic</td><td>45</td><td>37</td></tr>
+              <tr class="playoff-spot"><td class="rank">8</td><td class="team-name">Philadelphia 76ers</td><td>45</td><td>37</td></tr>
+              <tr><td class="rank">9</td><td class="team-name">Charlotte Hornets</td><td>44</td><td>38</td></tr>
+              <tr><td class="rank">10</td><td class="team-name">Miami Heat</td><td>43</td><td>39</td></tr>
+              <tr><td class="rank">11</td><td class="team-name">Milwaukee Bucks</td><td>32</td><td>50</td></tr>
+              <tr><td class="rank">12</td><td class="team-name">Chicago Bulls</td><td>31</td><td>51</td></tr>
+              <tr><td class="rank">13</td><td class="team-name">Brooklyn Nets</td><td>20</td><td>62</td></tr>
+              <tr><td class="rank">14</td><td class="team-name">Indiana Pacers</td><td>19</td><td>63</td></tr>
+              <tr><td class="rank">15</td><td class="team-name">Washington Wizards</td><td>17</td><td>65</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- WESTERN CONFERENCE -->
+        <div class="conference">
+          <div class="conference-title">WESTERN CONFERENCE</div>
+          <table class="standings-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>TEAM</th>
+                <th>W</th>
+                <th>L</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="playoff-spot"><td class="rank">1</td><td class="team-name">Oklahoma City Thunder</td><td>64</td><td>18</td></tr>
+              <tr class="playoff-spot"><td class="rank">2</td><td class="team-name">San Antonio Spurs</td><td>62</td><td>20</td></tr>
+              <tr class="playoff-spot"><td class="rank">3</td><td class="team-name">Denver Nuggets</td><td>54</td><td>28</td></tr>
+              <tr class="playoff-spot"><td class="rank">4</td><td class="team-name">Los Angeles Lakers</td><td>53</td><td>29</td></tr>
+              <tr class="playoff-spot"><td class="rank">5</td><td class="team-name">Houston Rockets</td><td>52</td><td>30</td></tr>
+              <tr class="playoff-spot"><td class="rank">6</td><td class="team-name">Minnesota Timberwolves</td><td>49</td><td>33</td></tr>
+              <tr class="playoff-spot"><td class="rank">7</td><td class="team-name">Phoenix Suns</td><td>45</td><td>37</td></tr>
+              <tr class="playoff-spot"><td class="rank">8</td><td class="team-name">LA Clippers</td><td>42</td><td>40</td></tr>
+              <tr><td class="rank">9</td><td class="team-name">Portland Trail Blazers</td><td>42</td><td>40</td></tr>
+              <tr><td class="rank">10</td><td class="team-name">Golden State Warriors</td><td>37</td><td>45</td></tr>
+              <tr><td class="rank">11</td><td class="team-name">New Orleans Pelicans</td><td>26</td><td>56</td></tr>
+              <tr><td class="rank">12</td><td class="team-name">Dallas Mavericks</td><td>26</td><td>56</td></tr>
+              <tr><td class="rank">13</td><td class="team-name">Memphis Grizzlies</td><td>25</td><td>57</td></tr>
+              <tr><td class="rank">14</td><td class="team-name">Sacramento Kings</td><td>22</td><td>60</td></tr>
+              <tr><td class="rank">15</td><td class="team-name">Utah Jazz</td><td>22</td><td>60</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <p class="legend">🟠 <span>Orange</span> = Playoff spot</p>
+    </div>
+
+    <footer>
+      <span>Your Daily NBA Fix</span> © 2026 Vihaan's Court
+    </footer>
+
+  </body>
+</html>

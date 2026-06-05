@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vihaan's Court</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #121212;
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Navbar */
+      nav {
+        background-color: #1a1a1a;
+        border-bottom: 2px solid #ff6b00;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        color: #ff6b00;
+        font-size: 22px;
+        font-weight: bold;
+        letter-spacing: 2px;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+      }
+
+      .nav-links a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 15px;
+        letter-spacing: 1px;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: #ff6b00;
+      }
+
+      /* Main content */
+      .main {
+        flex: 1;
+        text-align: center;
+        padding: 60px 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Basketball court SVG background */
+      .court-svg {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 0;
+        opacity: 0.15;
+        pointer-events: none;
+      }
+
+      .content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .ball {
+        font-size: 60px;
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        color: #ffffff;
+        font-size: 42px;
+        letter-spacing: 2px;
+      }
+
+      .subtitle {
+        color: #888;
+        font-size: 18px;
+        margin-top: 10px;
+      }
+
+      .bio {
+        max-width: 600px;
+        margin: 40px auto;
+        background-color: rgba(30, 30, 30, 0.9);
+        padding: 30px;
+        border-radius: 10px;
+        text-align: left;
+        font-size: 16px;
+        color: #ccc;
+        line-height: 1.8;
+        border: 1px solid #333;
+      }
+
+      .btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 35px;
+        background-color: #ff6b00;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        letter-spacing: 1px;
+      }
+
+      .btn:hover {
+        background-color: #ff8c00;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #1a1a1a;
+        border-top: 2px solid #ff6b00;
+        text-align: center;
+        padding: 20px;
+        color: #888;
+        font-size: 14px;
+        letter-spacing: 1px;
+      }
+
+      footer span {
+        color: #ff6b00;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Navbar -->
+    <nav>
+      <div class="logo">🏀 VIHAAN'S COURT</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="recaps.html">Recaps</a></li>
+        <li><a href="teams.html">Teams</a></li>
+        <li><a href="players.html">Players</a></li>
+      </ul>
+    </nav>
+
+    <!-- Court background -->
+    <svg class="court-svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="20" width="760" height="460" fill="none" stroke="#ff6b00" stroke-width="3"/>
+      <line x1="400" y1="20" x2="400" y2="480" stroke="#ff6b00" stroke-width="2"/>
+      <circle cx="400" cy="250" r="60" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <circle cx="400" cy="250" r="5" fill="#ff6b00"/>
+      <rect x="20" y="175" width="150" height="150" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <circle cx="170" cy="250" r="60" fill="none" stroke="#ff6b00" stroke-width="2" stroke-dasharray="8,6"/>
+      <circle cx="55" cy="250" r="15" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <line x1="20" y1="250" x2="70" y2="250" stroke="#ff6b00" stroke-width="2"/>
+      <path d="M 20 130 Q 250 250 20 370" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <rect x="630" y="175" width="150" height="150" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <circle cx="630" cy="250" r="60" fill="none" stroke="#ff6b00" stroke-width="2" stroke-dasharray="8,6"/>
+      <circle cx="745" cy="250" r="15" fill="none" stroke="#ff6b00" stroke-width="2"/>
+      <line x1="730" y1="250" x2="780" y2="250" stroke="#ff6b00" stroke-width="2"/>
+      <path d="M 780 130 Q 550 250 780 370" fill="none" stroke="#ff6b00" stroke-width="2"/>
+    </svg>
+
+    <!-- Main content -->
+    <div class="main">
+      <div class="content">
+        <div class="ball">🏀</div>
+        <h1>Work in Progress.</h1>
+        <p class="subtitle">One page at a time.</p>
+
+        <div class="bio">
+          Hey, I'm Vihaan. Basketball is my thing — on the court is honestly where I feel most alive. I'm an outdoorsy guy, a foodie, and someone who's always up for trying something new. This website is my first ever, and I built it myself to see if this is something I'm good at. It's dedicated to the sport I love most — basketball. Hopefully the first of many.
+        </div>
+
+        <a class="btn" href="#" onclick="document.getElementById('popup').style.display='flex'; return false;">Learn More</a>
+      </div>
+    </div>
+
+    <!-- Popup -->
+    <div id="popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:999; justify-content:center; align-items:center;">
+      <div style="background:#1e1e1e; border:2px solid #ff6b00; border-radius:12px; padding:40px; max-width:480px; text-align:center; position:relative;">
+        <div style="font-size:40px; margin-bottom:15px;">🏀</div>
+        <h2 style="color:#ff6b00; letter-spacing:2px; margin-bottom:15px;">WELCOME</h2>
+        <p style="color:#ccc; font-size:16px; line-height:1.8;">Welcome to Vihaan's Court — your daily NBA fix. Stick around, it only gets better.</p>
+        <button onclick="document.getElementById('popup').style.display='none'" style="margin-top:25px; padding:10px 30px; background:#ff6b00; color:#fff; border:none; border-radius:8px; font-size:15px; cursor:pointer; letter-spacing:1px;">Close</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <span>Your Daily NBA Fix</span> © 2026 Vihaan's Court
+    </footer>
+
+  </body>
+</html>
